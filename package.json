@@ -1,0 +1,8 @@
+{
+  "name": "hack",
+  "description": "sweet",
+  "version": "0.0.1",
+  "devDependencies": {
+    "pbi-glimpse": "0.0.21"
+  }
+}
