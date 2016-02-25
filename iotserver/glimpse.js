@@ -3,7 +3,13 @@ var MyGlimpse = (function () {
         var _this = this;
         this.options = options;
         var canvas = $('<canvas height="300" width="300"></canvas>');
-        var cube = true;
+        var bool = false;
+        canvas.on('click', function () {
+            bool = !bool;
+            options.host.emit('light', bool ? '1' : '0');
+            console.log('click');
+        });
+        var cube = false;
         var fumc;
         if (cube) {
             this.initCube(options.element);

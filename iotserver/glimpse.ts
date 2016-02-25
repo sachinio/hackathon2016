@@ -10,7 +10,14 @@ class MyGlimpse implements IGlimpse {
 
     constructor(private options:ConstructorOptions) {
         var canvas = $('<canvas height="300" width="300"></canvas>');
-        var cube = true;
+        var bool = false;
+        canvas.on('click',function(){
+            bool = !bool;
+            options.host.emit('light', bool?'1':'0');
+            console.log('click');
+        });
+
+        var cube = false;
 
         var fumc;
         if(cube) {
@@ -38,7 +45,6 @@ class MyGlimpse implements IGlimpse {
     }
 
     private draw(canvas, r){
-
         var context = canvas.get(0).getContext('2d');
         context.clearRect(0,0,300,300);
         var centerX = 150;
