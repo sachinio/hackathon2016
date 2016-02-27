@@ -3,6 +3,9 @@
   "description": "sweet",
   "version": "0.0.1",
   "devDependencies": {
-    "pbi-glimpse": "0.0.21"
+    "cli-prompt": "^0.5.0",
+    "keylogger": "^0.1.0",
+    "pbi-glimpse": "0.0.21",
+    "serialport": "^2.0.6"
   }
 }

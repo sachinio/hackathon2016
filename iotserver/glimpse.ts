@@ -2,7 +2,7 @@ import {IGlimpse, ConstructorOptions, IHost, IViewport} from '../node_modules/pb
 declare var THREE;
 declare var $;
 
-class MyGlimpse implements IGlimpse {
+class Glimpse implements IGlimpse {
     private cube;
     private scene;
     private renderer;
@@ -17,7 +17,7 @@ class MyGlimpse implements IGlimpse {
             console.log('click');
         });
 
-        var cube = false;
+        var cube = true;
 
         var fumc;
         if(cube) {

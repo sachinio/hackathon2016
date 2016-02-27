@@ -1,5 +1,5 @@
-var MyGlimpse = (function () {
-    function MyGlimpse(options) {
+var Glimpse = (function () {
+    function Glimpse(options) {
         var _this = this;
         this.options = options;
         var canvas = $('<canvas height="300" width="300"></canvas>');
@@ -9,7 +9,7 @@ var MyGlimpse = (function () {
             options.host.emit('light', bool ? '1' : '0');
             console.log('click');
         });
-        var cube = false;
+        var cube = true;
         var fumc;
         if (cube) {
             this.initCube(options.element);
@@ -36,7 +36,7 @@ var MyGlimpse = (function () {
             }
         });
     }
-    MyGlimpse.prototype.draw = function (canvas, r) {
+    Glimpse.prototype.draw = function (canvas, r) {
         var context = canvas.get(0).getContext('2d');
         context.clearRect(0, 0, 300, 300);
         var centerX = 150;
@@ -51,7 +51,7 @@ var MyGlimpse = (function () {
         context.globalAlpha = 1 - r / 100;
         context.stroke();
     };
-    MyGlimpse.prototype.initCube = function (element) {
+    Glimpse.prototype.initCube = function (element) {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, 300 / 300, 0.1, 1000);
         this.renderer = new THREE.WebGLRenderer();
@@ -69,7 +69,7 @@ var MyGlimpse = (function () {
         this.camera.position.z = 1.5;
         this.renderCube(0, 0, 0);
     };
-    MyGlimpse.prototype.renderCube = function (x, y, z) {
+    Glimpse.prototype.renderCube = function (x, y, z) {
         // requestAnimationFrame( render );
         this.cube.rotation.x = x;
         this.cube.rotation.y = y;
@@ -77,10 +77,10 @@ var MyGlimpse = (function () {
         this.renderer.render(this.scene, this.camera);
     };
     ;
-    MyGlimpse.prototype.resize = function (viewport) {
+    Glimpse.prototype.resize = function (viewport) {
         console.log('resize??');
         console.log(viewport);
     };
-    return MyGlimpse;
+    return Glimpse;
 })();
 //# sourceMappingURL=glimpse.js.map

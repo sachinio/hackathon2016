@@ -1,44 +1,38 @@
-var glimpse = require('pbi-glimpse');
+var path = require('path');
+var Glimpse = require('pbi-glimpse');
 
-var deviceName = '/' + process.argv.length > 1 ? process.argv[1] : 'glimpse';
-var actions = [{
-        on: 'earth',
-        do: function () {
-            console.log('success');
-        }
-    },{
-    on: 'light',
-    do: function(data){
-        console.log(data);
-        if(serialPort) {
-            serialPort.write(data?'1':'0');
-            device.emit('update', data?'1':'0');
-        }
-    }
-}
-];
+var glimpse = new Glimpse('rain', path.join(__dirname,'rain.js'));
+var sock;
+var rain = glimpse.connect(function(err, socket) {
+    sock = socket;
+    console.log('connected');
+    if(err) return console.log('ERROR', err);
 
-glimpse.init(12345);
-var device = glimpse.create('light.js', deviceName, actions);
-//return;
-var SerialPort = require("serialport").SerialPort
-var serialPort = new SerialPort("COM5", {
-    baudrate: 1200
+     socket.on('light', function(data) {
+         console.log('light triggered', data);
+         socket.emit('update', data ? '1' : '0');
+         serialPort.write(data ? '1' : '0');
+     });
 });
 
-
+var SerialPort = require("serialport").SerialPort
+var serialPort = new SerialPort("COM6", {
+    baudrate: 9600
+});
 
 serialPort.on("open", function () {
     console.log('open');
     serialPort.on('data', function (data) {
+        //console.log('data ...');
         if (data) {
-            console.log('data ...');
-            console.log(data.toString('utf8'));
-            device.emit('update', data.toString('utf8'));
-            /*var s = data.toString('utf8').split(',');
-            if (s.length === 3) {
-                device.emit('update', {yaw: s[0], pitch: s[1], roll: s[2]});
+            /*console.log(data.toString('utf8'));
+            if(sock) {
+                sock.emit('rain', data.toString('utf8'));
             }*/
+            /*  var s = data.toString('utf8').split(',');
+             if (s.length === 3) {
+             device.emit('update', {yaw: s[0], pitch: s[1], roll: s[2]});
+             }*/
         }
     });
 });
