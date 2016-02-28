@@ -45,7 +45,8 @@ serialPort.on("open", function () {
     console.log('open');
     var la = new Date().getTime();
     serialPort.on('data', function (data) {
-        var s = data.toString('utf8').split(',');
+        var s = data.toString('utf8');
+        //console.log(s);
 
         if(s.indexOf('E') === -1){
             chunk +=s;
@@ -54,8 +55,9 @@ serialPort.on("open", function () {
             var arr = chunk.split('E');
             s = arr[0];
             chunk = arr[1];
-
-            if (s.length === 6) {
+            s = s.split(',');
+            if (s.length === 7) {
+                //console.log(s);
                 var ti = new Date().getTime();
                 if (soil && rain && distance && orient) {
                     if ((ti - la) > 1000) {
