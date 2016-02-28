@@ -303,7 +303,7 @@ class Glimpse implements IGlimpse {
         config4.waveCount = 3;
         var gauge = loadLiquidFillGauge("fillgauge", 60.44, config4);
         this.options.host.on('update', (data)=>{
-            gauge.update((parseInt(data) /3 | 0));
+            gauge.update((parseInt(data) / 4 | 0));
         });
     }
     public resize(viewport: IViewport){
