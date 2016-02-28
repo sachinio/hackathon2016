@@ -26,7 +26,7 @@ class Glimpse implements IGlimpse {
             var value = parseInt(<any>data);
             if(value > 99) {
                 console.log(data);
-                this.maxParts = (408 - value) * 100;
+                this.maxParts = (1000 - value) * 5;
             }
             this.init();
         })

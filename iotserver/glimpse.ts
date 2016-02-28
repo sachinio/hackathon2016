@@ -7,9 +7,12 @@ class Glimpse implements IGlimpse {
     private scene;
     private renderer;
     private camera;
+    private r = 10;
+    private viewport: IViewport;
+    private canvas;
 
     constructor(private options:ConstructorOptions) {
-        var canvas = $('<canvas height="300" width="300"></canvas>');
+        var canvas = this.canvas = $('<canvas height="300" width="300"></canvas>');
         var bool = false;
         canvas.on('click',function(){
             bool = !bool;
@@ -17,7 +20,7 @@ class Glimpse implements IGlimpse {
             console.log('click');
         });
 
-        var cube = true;
+        var cube = false;
 
         var fumc;
         if(cube) {
@@ -30,7 +33,11 @@ class Glimpse implements IGlimpse {
                 fumc = true;
                 window.requestAnimationFrame(()=> {
                     if(!cube){
-                        this.draw(canvas, parseInt(data.hello) % 100 + 5);
+                        var r = ((parseFloat(data) + 1) * this.viewport.height/4);
+                        if(r < this.viewport.height/2) {
+                         this.r = r | 0;
+                            this.draw();
+                        }
                     }else {
                         var fac = 5;
                         var x = parseFloat(data.yaw)*fac;
@@ -44,12 +51,13 @@ class Glimpse implements IGlimpse {
         })
     }
 
-    private draw(canvas, r){
-        var context = canvas.get(0).getContext('2d');
-        context.clearRect(0,0,300,300);
-        var centerX = 150;
-        var centerY = 150;
-        var radius = r;
+    private draw(){
+        var context = this.canvas.get(0).getContext('2d');
+        var viewport = this.viewport;
+        context.clearRect(0,0,viewport.width |0,viewport.height|0);
+        var centerX = (viewport.width/2) | 0;
+        var centerY = (viewport.height/2) | 0;
+        var radius = this.r;
 
         context.beginPath();
         context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
@@ -57,11 +65,11 @@ class Glimpse implements IGlimpse {
         context.fill();
         context.lineWidth = 5;
         context.strokeStyle = 'black';
-        context.globalAlpha=1-r/100;
+        context.globalAlpha=1;
         context.stroke();
     }
 
-    private initCube(element){
+    private initCube(element,w,h){
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera( 75,300/300, 0.1, 1000 );
 
@@ -98,5 +106,8 @@ class Glimpse implements IGlimpse {
     public resize(viewport:IViewport) {
         console.log('resize??');
         console.log(viewport);
+        this.viewport = viewport;
+        this.canvas.attr('width',viewport.width).attr('height',(viewport.height));
+        this.draw();
     }
 }

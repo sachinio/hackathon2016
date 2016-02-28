@@ -20,7 +20,7 @@ var Glimpse = (function () {
             var value = parseInt(data);
             if (value > 99) {
                 console.log(data);
-                _this.maxParts = (408 - value) * 100;
+                _this.maxParts = (1000 - value) * 5;
             }
             _this.init();
         });

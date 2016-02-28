@@ -2,14 +2,15 @@ var Glimpse = (function () {
     function Glimpse(options) {
         var _this = this;
         this.options = options;
-        var canvas = $('<canvas height="300" width="300"></canvas>');
+        this.r = 10;
+        var canvas = this.canvas = $('<canvas height="300" width="300"></canvas>');
         var bool = false;
         canvas.on('click', function () {
             bool = !bool;
             options.host.emit('light', bool ? '1' : '0');
             console.log('click');
         });
-        var cube = true;
+        var cube = false;
         var fumc;
         if (cube) {
             this.initCube(options.element);
@@ -22,7 +23,11 @@ var Glimpse = (function () {
                 fumc = true;
                 window.requestAnimationFrame(function () {
                     if (!cube) {
-                        _this.draw(canvas, parseInt(data.hello) % 100 + 5);
+                        var r = ((parseFloat(data) + 1) * _this.viewport.height / 4);
+                        if (r < _this.viewport.height / 2) {
+                            _this.r = r | 0;
+                            _this.draw();
+                        }
                     }
                     else {
                         var fac = 5;
@@ -36,22 +41,23 @@ var Glimpse = (function () {
             }
         });
     }
-    Glimpse.prototype.draw = function (canvas, r) {
-        var context = canvas.get(0).getContext('2d');
-        context.clearRect(0, 0, 300, 300);
-        var centerX = 150;
-        var centerY = 150;
-        var radius = r;
+    Glimpse.prototype.draw = function () {
+        var context = this.canvas.get(0).getContext('2d');
+        var viewport = this.viewport;
+        context.clearRect(0, 0, viewport.width | 0, viewport.height | 0);
+        var centerX = (viewport.width / 2) | 0;
+        var centerY = (viewport.height / 2) | 0;
+        var radius = this.r;
         context.beginPath();
         context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
         context.fillStyle = '#DEDF08';
         context.fill();
         context.lineWidth = 5;
         context.strokeStyle = 'black';
-        context.globalAlpha = 1 - r / 100;
+        context.globalAlpha = 1;
         context.stroke();
     };
-    Glimpse.prototype.initCube = function (element) {
+    Glimpse.prototype.initCube = function (element, w, h) {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, 300 / 300, 0.1, 1000);
         this.renderer = new THREE.WebGLRenderer();
@@ -80,6 +86,9 @@ var Glimpse = (function () {
     Glimpse.prototype.resize = function (viewport) {
         console.log('resize??');
         console.log(viewport);
+        this.viewport = viewport;
+        this.canvas.attr('width', viewport.width).attr('height', (viewport.height));
+        this.draw();
     };
     return Glimpse;
 })();
