@@ -264,7 +264,7 @@ var Glimpse = (function () {
         config4.waveCount = 3;
         var gauge = loadLiquidFillGauge("fillgauge", 60.44, config4);
         this.options.host.on('update', function (data) {
-            gauge.update((parseInt(data) / 4 | 0));
+            gauge.update((parseInt(data) / 4) | 0);
         });
     };
     Glimpse.prototype.resize = function (viewport) {
