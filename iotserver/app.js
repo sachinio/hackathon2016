@@ -37,7 +37,7 @@ glimpse4.connect(function(err, socket) {
 //return;
 var SerialPort = require("serialport").SerialPort
 var serialPort = new SerialPort(sport, {
-    baudrate: 15200
+    baudrate: 115200
 });
 
 var chunk = "";
