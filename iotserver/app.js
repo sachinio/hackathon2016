@@ -59,15 +59,16 @@ glimpse6.connect(function(err, socket) {
     console.log('vote connected');
     if(err) return console.log('ERROR', err);
 });
-var votes = ['real-time','Glimpse','Glimpse','hello','Glimpse','Glimpse'];
-var start=0;
+var votes = ['Glimpse','Hololens','XBOX','Custom Visuals','Chocolate','Sprite'];
 
 var votingSim = function() {
     setInterval(function(){
-     vote.emit('update', votes[start++]);
-     },5000);
+        var i = Math.random() * 1000 % votes.length |0
+        if(vote)vote.emit('update', votes[i]);
+    },2000);
 }
-//votingSim();
+
+votingSim();
 //return;
 var SerialPort = require("serialport").SerialPort;
 
