@@ -6,7 +6,7 @@ var Glimpse = (function () {
         var _this = this;
         this.options = options;
         $("<style type='text/css'>" + Glimpse.CSSString + "</style>").appendTo("head");
-        $('body').append(Glimpse.HTMLTemplate);
+        $(options.element).append($(Glimpse.HTMLTemplate));
         this.toggle(false);
         options.host.on('update', function (data) {
             _this.toggle(data === '1' ? true : false);

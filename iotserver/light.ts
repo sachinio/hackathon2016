@@ -10,7 +10,7 @@ class Glimpse implements IGlimpse {
     private static HTMLTemplate = ' <div class="container"> <h2>Light bulb</h2> <a class="bulb-light"> <div id="light"></div><div id="bulb"> <div class="bulb-top"> <div class="reflection"></div></div><div class="bulb-middle-1"></div><div class="bulb-middle-2"></div><div class="bulb-middle-3"></div><div class="bulb-bottom"></div></div><div id="base"> <div class="screw-top"></div><div class="screw-a"></div><div class="screw-b"></div><div class="screw-a"></div><div class="screw-b"></div><div class="screw-a"></div><div class="screw-b"></div><div class="screw-c"></div><div class="screw-d"></div></div></a> </div>'
     constructor(private options: ConstructorOptions){
         $("<style type='text/css'>"+Glimpse.CSSString+"</style>").appendTo("head");
-        $('body').append(Glimpse.HTMLTemplate);
+        $(options.element).append($(Glimpse.HTMLTemplate));
         this.toggle(false);
         options.host.on('update', (data)=>{
             this.toggle(data === '1' ? true : false);
