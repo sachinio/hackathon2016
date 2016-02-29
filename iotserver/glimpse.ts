@@ -62,7 +62,7 @@ class Glimpse implements IGlimpse {
 
         context.beginPath();
         context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        context.fillStyle = '#DEDF08';
+        context.fillStyle = '#EDC951';
         context.fill();
         context.lineWidth = 5;
         context.strokeStyle = 'black';
