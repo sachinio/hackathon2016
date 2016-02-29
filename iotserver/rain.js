@@ -7,12 +7,12 @@ var Glimpse = (function () {
         this.options = options;
         this.w = 900;
         this.h = 500;
-        this.maxParts = 0;
+        this.maxParts = 10;
         var canvas = $('<canvas id="canvas"></canvas>');
         canvas.width(this.w);
         canvas.height(this.h);
         this.canvas = canvas[0];
-        $(options.element).css('background', '#061928');
+        d3.select(options.element).style('background', '#AAAAAA');
         $(options.element).append(canvas);
         this.init();
         setInterval(function () { return _this.draw(); }, 50);
@@ -21,6 +21,12 @@ var Glimpse = (function () {
             if (value > 99) {
                 console.log(data);
                 _this.maxParts = (1000 - value) * 2;
+                if (_this.maxParts > 0) {
+                    d3.select(options.element).transition().duration(3000).style('background', '#333333');
+                }
+                else {
+                    d3.select(options.element).transition().duration(3000).style('background', '#AAAAAA');
+                }
             }
             _this.init();
         });
@@ -31,7 +37,7 @@ var Glimpse = (function () {
             var ctx = this.ctx = canvas.getContext('2d');
             var w = this.w;
             var h = this.h;
-            ctx.strokeStyle = 'rgba(174,194,224,0.5)';
+            ctx.strokeStyle = '#00B4FF';
             ctx.lineWidth = 1;
             ctx.lineCap = 'round';
             var init = [];

@@ -3,6 +3,7 @@ var Glimpse = (function () {
         var _this = this;
         this.options = options;
         this.r = 10;
+        d3.select(options.element).style('background', '#333333');
         var canvas = this.canvas = $('<canvas height="300" width="300"></canvas>');
         var bool = false;
         canvas.on('click', function () {

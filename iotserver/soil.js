@@ -242,6 +242,7 @@ var Glimpse = (function () {
     function Glimpse(options) {
         this.options = options;
         this.hasInit = false;
+        $(options.element).css('background', '#333333');
     }
     Glimpse.prototype.init = function (h) {
         this.hasInit = true;
@@ -249,10 +250,10 @@ var Glimpse = (function () {
         $(this.options.element).append(div);
         var config4 = liquidFillGaugeDefaultSettings();
         config4.circleThickness = 0.15;
-        config4.circleColor = "#808015";
-        config4.textColor = "#555500";
+        config4.circleColor = "#EDC951";
+        config4.textColor = "#EDC951";
         config4.waveTextColor = "#FFFFAA";
-        config4.waveColor = "#AAAA39";
+        config4.waveColor = "#00B4FF";
         config4.textVertPosition = 0.8;
         config4.waveAnimateTime = 1000;
         config4.waveHeight = 0.05;
@@ -262,7 +263,7 @@ var Glimpse = (function () {
         config4.waveOffset = 0.25;
         config4.textSize = 0.75;
         config4.waveCount = 3;
-        var gauge = loadLiquidFillGauge("fillgauge", 60.44, config4);
+        var gauge = loadLiquidFillGauge("fillgauge", 75.44, config4);
         this.options.host.on('update', function (data) {
             gauge.update((parseInt(data) / 4) | 0);
         });
