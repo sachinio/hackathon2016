@@ -27,12 +27,15 @@ class Glimpse implements IGlimpse {
             var value = parseInt(<any>data);
             if(value > 99) {
                 console.log(data);
+                var last = this.maxParts;
                 this.maxParts = (1000 - value) * 2;
 
-                if(this.maxParts>0){
-                    d3.select(options.element).transition().duration(3000).style('background', '#333333');
-                }else{
-                    d3.select(options.element).transition().duration(3000).style('background', '#AAAAAA');
+                if(last!=this.maxParts) {
+                    if (this.maxParts > 0) {
+                        d3.select(options.element).transition().duration(3000).style('background', '#333333');
+                    } else {
+                        d3.select(options.element).transition().duration(3000).style('background', '#AAAAAA');
+                    }
                 }
             }
             this.init();

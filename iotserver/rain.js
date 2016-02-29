@@ -20,12 +20,15 @@ var Glimpse = (function () {
             var value = parseInt(data);
             if (value > 99) {
                 console.log(data);
+                var last = _this.maxParts;
                 _this.maxParts = (1000 - value) * 2;
-                if (_this.maxParts > 0) {
-                    d3.select(options.element).transition().duration(3000).style('background', '#333333');
-                }
-                else {
-                    d3.select(options.element).transition().duration(3000).style('background', '#AAAAAA');
+                if (last != _this.maxParts) {
+                    if (_this.maxParts > 0) {
+                        d3.select(options.element).transition().duration(3000).style('background', '#333333');
+                    }
+                    else {
+                        d3.select(options.element).transition().duration(3000).style('background', '#AAAAAA');
+                    }
                 }
             }
             _this.init();
