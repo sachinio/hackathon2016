@@ -44,7 +44,7 @@ var Glimpse = (function () {
     };
     Glimpse.prototype.draw = function (duration) {
         var data = this.data;
-        var margin = { top: 20, right: 20, bottom: 30, left: 50 }, width = this.viewport.width - margin.left - margin.right, height = this.viewport.height - margin.top - margin.bottom;
+        var margin = { top: 20, right: 20, bottom: 30, left: 45 }, width = this.viewport.width - margin.left - margin.right, height = this.viewport.height - margin.top - margin.bottom;
         var x = d3.scale.ordinal()
             .rangeRoundBands([0, width], .1);
         var y = d3.scale.linear()

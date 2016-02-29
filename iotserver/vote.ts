@@ -59,7 +59,7 @@ class Glimpse implements IGlimpse {
     private draw(duration){
         var data = this.data;
 
-        var margin = {top: 20, right: 20, bottom: 30, left: 50},
+        var margin = {top: 20, right: 20, bottom: 30, left: 45},
             width = this.viewport.width - margin.left - margin.right,
             height =  this.viewport.height - margin.top - margin.bottom;
 
