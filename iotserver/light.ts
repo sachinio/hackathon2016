@@ -24,7 +24,7 @@ class Glimpse implements IGlimpse {
 
     private toggle(value: boolean){
         this.state = value;
-        if(this.state) {
+        if(!this.state) {
             $('body').removeClass('night');
         }else{
             $('body').addClass('night');

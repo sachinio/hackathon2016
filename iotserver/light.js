@@ -18,7 +18,7 @@ var Glimpse = (function () {
     }
     Glimpse.prototype.toggle = function (value) {
         this.state = value;
-        if (this.state) {
+        if (!this.state) {
             $('body').removeClass('night');
         }
         else {
