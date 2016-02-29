@@ -10,7 +10,7 @@ class Glimpse implements IGlimpse {
     private particles;
     private w=900;
     private h=500;
-    private maxParts = 10;
+    private maxParts = 0;
 
     constructor(private options:ConstructorOptions) {
         var canvas = $('<canvas id="canvas"></canvas>');

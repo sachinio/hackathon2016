@@ -7,7 +7,7 @@ var Glimpse = (function () {
         this.options = options;
         this.w = 900;
         this.h = 500;
-        this.maxParts = 10;
+        this.maxParts = 0;
         var canvas = $('<canvas id="canvas"></canvas>');
         canvas.width(this.w);
         canvas.height(this.h);
