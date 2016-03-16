@@ -10,7 +10,7 @@ var Glimpse = (function () {
         var count = 0;
         var text = this.text = d3.select(options.element).append('svg').append('text');
         d3.select(options.element).style('background', '#333333');
-        text.style('font-size', '200px').attr('fill', '#EDC951').attr('text-anchor', 'middle').text('0');
+        text.style('font-size', '200px').attr('fill', '#EDC951').attr('text-anchor', 'middle').text('-');
         options.host.on('update', function (data) {
             text.text(data);
         });

@@ -9,6 +9,7 @@ var glimpse3 = new Glimpse('distance', path.join(__dirname,'text.js'));
 var glimpse4 = new Glimpse('orient', path.join(__dirname,'glimpse.js'));
 var glimpse5 = new Glimpse('light', path.join(__dirname,'light.js'));
 var glimpse6 = new Glimpse('vote', path.join(__dirname,'vote.js'));
+var glimpse7 = new Glimpse('foot', path.join(__dirname,'foot.js'));
 
 var soil;
 var rain;
@@ -16,6 +17,7 @@ var distance;
 var orient;
 var light;
 var vote;
+var foot;
 
 glimpse.connect(function(err, socket) {
     soil = socket;
@@ -53,12 +55,18 @@ glimpse5.connect(function(err, socket){
     })
 });
 
-
 glimpse6.connect(function(err, socket) {
     vote = socket;
     console.log('vote connected');
     if(err) return console.log('ERROR', err);
 });
+
+glimpse7.connect(function(err, socket) {
+    foot = socket;
+    console.log('foot connected');
+    if(err) return console.log('ERROR', err);
+});
+
 var votes = ['Glimpse','Hololens','XBOX','Custom Visuals','Chocolate','Sprite'];
 
 var votingSim = function() {
@@ -68,8 +76,12 @@ var votingSim = function() {
     },2000);
 }
 
-votingSim();
-//return;
+//votingSim();
+
+
+
+return;
+
 var SerialPort = require("serialport").SerialPort;
 
 var arduino101 = new SerialPort(arduinoPort, {

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            background: url("http://images.clipartpanda.com/wrongdoing-clipart-left-foot-hollow-md.png") no-repeat center;
+            background-repeat: ;
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+<canvas width="300" height="500" id="canvas"></canvas>
+<script>
+    //234 297
+    var context = document.getElementById('canvas').getContext('2d');
+    var height = document.getElementById('canvas').offsetHeight;
+    var width = document.getElementById('canvas').offsetWidth;
+
+    var maxR = 40;
+
+    function drawCircle(cx, cy, r){
+        context.beginPath();
+        context.arc(cx, cy, r, 0, 2 * Math.PI, false);
+        context.fillStyle = 'red';
+        context.fill();
+        context.lineWidth = 5;
+        context.strokeStyle = '#003300';
+        context.stroke();
+    }
+
+    drawCircle(width*2.5/6, (height - (height - (297*width/234))/2) - maxR*2/3 , maxR);
+</script>
+</body>
+</html>

@@ -1,7 +1,12 @@
-var Keyboard = require('keyboard');
+var net = require('net');
 
-var k = new Keyboard('event2'); // 'event2' is the file corresponding to my keyboard in /dev/input/
-k.on('keyup', console.log);
-k.on('keydown', console.log);
-k.on('keypress', console.log);
-k.on('error', console.error);
+var HOST = '127.0.0.1';
+var PORT = 8001;
+var sensoria = new net.Socket();
+
+sensoria.connect(PORT, HOST, function() {
+    console.log('CONNECTED TO: ' + HOST + ':' + PORT);
+});
+
+sensoria.on('data', function(data) {
+});
