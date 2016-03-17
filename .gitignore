@@ -1,3 +1,5 @@
 .idea/
 hackathon2016.iml
 node_modules/
+maps/keys.js
+hacks/

@@ -9,7 +9,8 @@ class Glimpse implements IGlimpse {
         this.appendJS('https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1',()=>{
             setTimeout(() =>{
                 this.appendJS('https://visual.azureedge.net/dev/moveLocationPlugin.js',()=>{
-                    options.host.emit('alive');
+
+                    this.ensure();
                 });
             },2000);
             options.host.on('setView', (data)=>{
@@ -29,7 +30,9 @@ class Glimpse implements IGlimpse {
                 var map = this.ensure();
                 if(map) {
                     var loc = new Microsoft.Maps.Location(data.latitude, data.longitude);
-                    this.movePin(data.id, loc);
+                    this.movePin(data.id, loc, 'https://cdn3.iconfinder.com/data/icons/transport-icons-2/512/BT_truck_renault_front-48.png')
+                    //this.movePin(data.id, loc,'https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/48/delivery_food.png')
+                    //this.movePin(data.id, loc, 'https://cdn2.iconfinder.com/data/icons/shop-payment-vol-5/128/shop-13-48.png');
                 }
             });
         });
@@ -42,6 +45,8 @@ class Glimpse implements IGlimpse {
             //icon: ,
             icon: icon,
             draggable: false,
+            height: 48,
+            width: 48
             //typeName: 'truckMarker',
         });
 

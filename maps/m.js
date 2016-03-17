@@ -7,23 +7,22 @@ var path = require('path');
 var Glimpse = require('pbi-glimpse');
 
 var glimpse8 = new Glimpse('map', path.join(__dirname, '../iotserver/map.js'));
-var glimpse3 = new Glimpse('distance', path.join(__dirname,'../iotserver/text.js'));
+var glimpse3 = new Glimpse('miles', path.join(__dirname,'../iotserver/text.js'));
 var glimpseCost = new Glimpse('cost', path.join(__dirname,'../iotserver/text.js'));
 var glimpseCompleted = new Glimpse('completed', path.join(__dirname,'../iotserver/text.js'));
 var glimpseRemaining = new Glimpse('remaining', path.join(__dirname,'../iotserver/text.js'));
+var glimpseControl= new Glimpse('control', path.join(__dirname,'../iotserver/control.js'));
 
 var map;
 var distance;
 var cost;
 var completed;
-var remaining
+var remaining;
+var control;
 
 glimpse8.connect(function (err, socket) {
     map = socket;
     console.log('map connected');
-    map.on('alive',function(){
-        startSim();
-    });
     if (err) return console.log('ERROR', err);
 });
 
@@ -47,6 +46,17 @@ glimpseCompleted.connect(function(err, socket) {
 
 glimpseRemaining.connect(function(err, socket) {
     remaining = socket;
+    console.log('distance connected');
+    if(err) return console.log('ERROR', err);
+});
+
+glimpseControl.connect(function(err, socket) {
+    control = socket;
+
+    control.on('alive',function(options){
+        startSim(options);
+    });
+
     console.log('distance connected');
     if(err) return console.log('ERROR', err);
 });
@@ -182,18 +192,20 @@ function getRoute(adds, callback) {
     });
 }
 
-function getRoutes(addsArr, finalCallback, count, a) {
+function getRoutes(optimize, addsArr, finalCallback, count, a) {
     a = a || [];
 
     if (count === 0) {
         finalCallback(a);
     } else {
-        getOptimizedRoute(addsArr[count - 1], function (data) {
+        var fx = optimize ? getOptimizedRoute : getRoute;
+        fx(addsArr[count - 1], function (data) {
             console.log(count);
+            reportProgress(count);
             a.push(data);
             count--;
             setTimeout(function() {
-                getRoutes(addsArr, finalCallback, count, a);
+                getRoutes(optimize, addsArr, finalCallback, count, a);
             },500);
         })
     }
@@ -210,10 +222,23 @@ function generateRouteUrlStub(adds) {
     return stub
 }
 
+
+
+
+trucks = 0;
+
+function reportProgress(d){
+    control.emit('progress',{
+        done: false,
+        progress: (1 - d/trucks)
+    })
+}
+
 var inter = 0;
-function startSim() {
+function startSim(options) {
     var fuelCostPerMile = 0.2;
-    var stopsPerTruck = 8;
+    var stopsPerTruck = options.stops;
+    trucks = options.trucks;
     var stats = {
         distance: 0,
         fuelCost: 0,
@@ -225,7 +250,7 @@ function startSim() {
     clearInterval(inter);
     var r = [];
     var startZip = '98052';
-    for(var x=0; x<2; x++) {
+    for(var x=0; x<options.trucks; x++) {
         var d = [];
         d.push(startZip);
         d.push(_.clone(waZips).slice(x*(stopsPerTruck), x*(stopsPerTruck) + stopsPerTruck));
@@ -233,7 +258,11 @@ function startSim() {
         r.push(_.flatten(d));
     }
 
-    getRoutes(r, function (data) {
+    getRoutes(options.optimize, r, function (data) {
+        control.emit('progress',{
+            done: true
+        });
+
         var routes = _.map(data, function (d) {
             return extractLine(d);
         });
@@ -275,7 +304,7 @@ function startSim() {
 
             if(flag) {
                 var total = (stopsPerTruck + 1) * routes.length;
-                var avg = c / routes[0].length;
+                var avg = c / _.max(_.map(routes, function(d){return d.length;}));
                 if (avg > 1) {
                     avg = 1;
                 }
