@@ -236,6 +236,9 @@ function reportProgress(d){
 
 var inter = 0;
 function startSim(options) {
+    if(map){
+        map.emit('clearPins');
+    }
     var fuelCostPerMile = 0.2;
     var stopsPerTruck = options.stops;
     trucks = options.trucks;
@@ -297,7 +300,17 @@ function startSim(options) {
                     cost.emit('update','$ '+  Math.round(stats.fuelCost, 2));
 
                     flag=true;
+                }else if(map){
+                    map.emit('movePin', {
+                        id: i,
+                        latitude: routes[i][routes[i].length -1][0],
+                        longitude: routes[i][routes[i].length -1][1]
+                    });
                 }
+            }
+
+            if(c%100 === 0) {
+                map.emit('setView', rect);
             }
 
             c++;

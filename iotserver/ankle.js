@@ -1,6 +1,7 @@
 var path = require('path');
 var Glimpse = require('pbi-glimpse');
 var scales = require('../node_modules/scales/scales.js');
+var _ = require('lodash')
 
 var glimpseSteps = new Glimpse('steps', path.join(__dirname,'text.js'));
 var glimpseState = new Glimpse('state', path.join(__dirname,'text.js'));
@@ -38,10 +39,17 @@ sensoriaAnklet.connect(8002, HOST, function() {
 
 var sChunk = "";
 
-var scale = scales.linear()
-    .domain([100, 500]) //input domain
-    .range([0, 1]);
 
+var minMin = 700;
+var maxMax = 1000;
+
+var s0Max = minMin;
+var s1Max = minMin;
+var s2Max = minMin;
+var s0Min = maxMax;
+var s1Min = maxMax;
+var s2Min = maxMax;
+var autoCalibrate = true;
 sensoriaAnklet.on('data', function(data) {
     data = data.toString('utf8');
     sChunk+=data;
@@ -55,11 +63,39 @@ sensoriaAnklet.on('data', function(data) {
             if(steps !== undefined && state!== undefined && ankle !== undefined) {
                 steps.emit('update', data[0]);
                 state.emit('update', data[4]);
+
+                var one = parseInt(data[5]);
+                var two = parseInt(data[6]);
+                var three = parseInt(data[7]);
+
+                if(autoCalibrate) {
+                    s0Max = _.min([maxMax, _.max([one, s0Max])]);
+                    s1Max = _.min([maxMax, _.max([two, s1Max])]);
+                    s2Max = _.min([maxMax, _.max([three, s2Max])]);
+
+                    s0Min = _.max([minMin,_.min([one, s0Min])]);
+                    s1Min = _.max([minMin,_.min([two, s1Min])]);
+                    s2Min = _.max([minMin,_.min([three, s2Min])]);
+                }
+
+                var s0 = scales.linear()
+                    .domain([s0Min, s0Max])
+                    .range([0, 1]);
+
+                var s1 = scales.linear()
+                    .domain([s1Min, s1Max])
+                    .range([0, 1]);
+
+                var s2 = scales.linear()
+                    .domain([s2Min, s2Max])
+                    .range([0, 1]);
+
                 var r = {
-                    left: scale(parseInt(data[5])),
-                    right: scale(parseInt(data[6])),
-                    heel: scale(parseInt(data[7])),
+                    left: s0(one),
+                    right: s1(two),
+                    heel: s2(three),
                 };
+                
                 console.log(r);
                 ankle.emit('update', r);
             }
