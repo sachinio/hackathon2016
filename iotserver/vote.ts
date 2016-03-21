@@ -10,7 +10,8 @@ class Glimpse implements IGlimpse {
     private data:any[];
 
     constructor(private options: ConstructorOptions){
-        $("<style type='text/css'> svg{ background: #333333} .bar { fill: #EDC951; } .axis { font: 12px sans-serif; } .axis path,.axis line {fill: none; stroke: #EDC951; shape-rendering: crispEdges; }.axis text{ fill: #EDC951; } .x.axis path { display: none; }</style>").appendTo("head");
+        this.appendPbiStyles()
+        $("<style type='text/css'> svg{ background: #333333} .bar { fill: #EDC951; } .axis { font: 12px wf_standard-font_light; } .axis path,.axis line {fill: none; stroke: #EDC951; shape-rendering: crispEdges; }.axis text{ fill: #EDC951; } .x.axis path { display: none; }</style>").appendTo("head");
 
         this.data = [];
 
@@ -23,6 +24,7 @@ class Glimpse implements IGlimpse {
 
         this.yAxisGroup
             .append("text")
+
             .attr("transform", "rotate(-90)")
             .attr("y", 6)
             .attr("dy", ".71em")
@@ -54,6 +56,8 @@ class Glimpse implements IGlimpse {
         for(var key in this.vote){
             this.data.push({letter: key, frequency: this.vote[key] / total});
         }
+
+
     }
 
     private draw(duration){
@@ -113,12 +117,30 @@ class Glimpse implements IGlimpse {
             .attr("height", function(d) { return height - y(d.frequency); });
 
         sel.exit().remove();
+
+        d3.select('text').style('font-family', 'wf_standard-font_light')
     }
 
     public resize(viewport: IViewport){
         this.viewport = viewport;
         this.draw(0);
         console.log('resizing ...')
+    }
+
+    private appendCss(url: string, onload?:()=>void): void{
+        var node = $("<link>", {
+            type: 'text/css',
+            rel: 'stylesheet',
+            href: url,
+            onload: onload
+        });
+
+        node.appendTo($('head'));
+    }
+
+    private appendPbiStyles(){
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyleoverride.css');
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyle.css');
     }
 }
 

@@ -3,7 +3,8 @@ var Glimpse = (function () {
         var _this = this;
         this.options = options;
         this.vote = [];
-        $("<style type='text/css'> svg{ background: #333333} .bar { fill: #EDC951; } .axis { font: 12px sans-serif; } .axis path,.axis line {fill: none; stroke: #EDC951; shape-rendering: crispEdges; }.axis text{ fill: #EDC951; } .x.axis path { display: none; }</style>").appendTo("head");
+        this.appendPbiStyles();
+        $("<style type='text/css'> svg{ background: #333333} .bar { fill: #EDC951; } .axis { font: 12px wf_standard-font_light; } .axis path,.axis line {fill: none; stroke: #EDC951; shape-rendering: crispEdges; }.axis text{ fill: #EDC951; } .x.axis path { display: none; }</style>").appendTo("head");
         this.data = [];
         this.svg = d3.select(options.element).append('svg');
         this.mainGroup = this.svg.append('g');
@@ -83,11 +84,25 @@ var Glimpse = (function () {
             .attr("y", function (d) { return y(d.frequency); })
             .attr("height", function (d) { return height - y(d.frequency); });
         sel.exit().remove();
+        d3.select('text').style('font-family', 'wf_standard-font_light');
     };
     Glimpse.prototype.resize = function (viewport) {
         this.viewport = viewport;
         this.draw(0);
         console.log('resizing ...');
+    };
+    Glimpse.prototype.appendCss = function (url, onload) {
+        var node = $("<link>", {
+            type: 'text/css',
+            rel: 'stylesheet',
+            href: url,
+            onload: onload
+        });
+        node.appendTo($('head'));
+    };
+    Glimpse.prototype.appendPbiStyles = function () {
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyleoverride.css');
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyle.css');
     };
     return Glimpse;
 })();

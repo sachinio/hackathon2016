@@ -34,8 +34,16 @@
 <div class="container" id="js-container">Scratch in box
 </div>
 <script>
-    var g;
     (function() {
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                    s4() + '-' + s4() + s4() + s4();
+        }
 
         var glimpseSocket;
         var isDrawing, lastPoint;
@@ -110,7 +118,6 @@
                 y = lastPoint.y + (Math.cos(angle) * i) - 25;
                 //ctx.globalCompositeOperation = 'destination-out';
                 //ctx.drawImage(brush, x, y);
-                g=canvas;
                 if(glimpseSocket)
                 {
                     glimpseSocket.emit('draw',{x:x,y: y, w: canvas.offsetWidth, h:canvas.offsetHeight})
@@ -128,16 +135,52 @@
 
 
         $.get({url:'scratch.js', dataType:"text"}).done(initGlimpse);
-
+        $.get({url:'vote.js', dataType:"text"}).done(initVote);
         function initGlimpse(data) {
             // var options = {server:'http://localhost', port:3000, cache:true};
-            var options = {cache:true};
+            var options = {};
             var glimpse = new Glimpse("scratch", data, options);
             glimpse.connect(function(err, socker){
                 glimpseSocket = socker;
             });
 
+
+
             console.log('created glimpse ....');
+        }
+
+        function initVote(data){
+            var options = {}
+            new Glimpse("vote", data, options).connect(function(err, s) {
+                if (navigator.userAgent.match(/iPad/i)) {
+                    s.emit('update','iPad')
+                }
+
+                else if (navigator.userAgent.match(/iPhone/i)) {
+                    s.emit('update','iPhone')
+                }
+
+
+                else if (navigator.userAgent.match(/Android/i)) {
+                    s.emit('update','Android')
+                }
+
+
+                else if (navigator.userAgent.match(/BlackBerry/i)) {
+                    s.emit('update','Blackberry')
+                }
+
+                else if (navigator.userAgent.match(/Windows/i)){
+                    s.emit('update','Windows')
+                }
+
+                else if (navigator.userAgent.match(/webOS/i)) {
+                    s.emit('update','webOS')
+                }
+                else {
+                    s.emit('update','Others')
+                }
+            });
         }
 
         var defaults = {
