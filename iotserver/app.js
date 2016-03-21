@@ -95,8 +95,8 @@ var scale2 = scales.linear()
     .range([0, 1]);
 
 var orientScale = scales.linear()
-    .domain([-1, 1])
-    .range(0.2, 1);
+    .domain([-0.6,0.6])
+    .range([0.2, 1]);
 
 
 var chunk = "";
@@ -133,9 +133,9 @@ arduino101.on("open", function () {
                     }
                     var p = parseFloat(dataUtf8[5]);
                     var oValue = orientScale(p);
-                    console.log(p);
-                    console.log(oValue);
-                    //orient.emit('update', oValue);
+                    //console.log(p);
+                    //console.log(oValue);
+                    orient.emit('update', oValue);
                 }
             }
         }
