@@ -94,6 +94,10 @@ var scale2 = scales.linear()
     .domain([7, 1])
     .range([0, 1]);
 
+var orientScale = scales.linear()
+    .domain([-0.6, 0.6])
+    .range(0.1, 1);
+
 
 var chunk = "";
 arduino101.on("open", function () {
@@ -127,8 +131,8 @@ arduino101.on("open", function () {
                             width: scale2(dist)
                         });
                     }
-                    console.log(dataUtf8[5])
-                    //orient.emit('update', dataUtf8[5]);
+                    //console.log(dataUtf8[5])
+                    orient.emit('update', orientScale(parseFloat(dataUtf8[5])));
                 }
             }
         }

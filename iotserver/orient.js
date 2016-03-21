@@ -9,6 +9,7 @@
  */
 var Glimpse = (function () {
     function Glimpse(options) {
+        var _this = this;
         this.options = options;
         this.value = 0.5;
         var svg = this.svg = d3.select(options.element).append('svg');
@@ -18,6 +19,10 @@ var Glimpse = (function () {
             fill: '#EDC951',
             'stroke-width': '1px',
             'stroke': '#EDC951'
+        });
+        options.host.on('update', function (data) {
+            _this.value = data;
+            _this.circle.attr('r', data);
         });
     }
     Glimpse.prototype.resize = function (viewport) {

@@ -24,7 +24,12 @@ class Glimpse implements IGlimpse {
             fill: '#EDC951',
             'stroke-width': '1px',
             'stroke': '#EDC951'
-        })
+        });
+
+        options.host.on('update',(data: any)=>{
+            this.value = data;
+            this.circle.attr('r', data);
+        });
     }
 
     public resize(viewport: IViewport){
