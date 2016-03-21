@@ -131,8 +131,9 @@ arduino101.on("open", function () {
                             width: scale2(dist)
                         });
                     }
-                    //console.log(dataUtf8[5])
-                    orient.emit('update', orientScale(parseFloat(dataUtf8[5])));
+                    var oValue = orientScale(parseFloat(dataUtf8[5]));
+                    console.log(oValue);
+                    //orient.emit('update', oValue);
                 }
             }
         }
