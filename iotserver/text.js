@@ -15,7 +15,8 @@ var Glimpse = (function () {
             'vertical-align': 'middle',
             'color': '#EDC951',
             'font-size': '60px',
-            'font-family': 'wf_standard-font_light'
+            'font-family': 'wf_standard-font_light',
+            'transition': 'width 0.1s'
         });
         this.bar = $('<div class="bar"></div>');
         this.bar.css('background-color', '#EDC951');

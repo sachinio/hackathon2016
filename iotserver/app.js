@@ -88,10 +88,10 @@ var xbee = new SerialPort(xbeePort, {
 
 var scale = scales.linear()
     .domain([250, 1050])
-    .range([1, 7]);
+    .range([7, 1]);
 
 var scale2 = scales.linear()
-    .domain([1, 7])
+    .domain([7, 1])
     .range([0, 1]);
 
 
@@ -99,6 +99,7 @@ var chunk = "";
 arduino101.on("open", function () {
     console.log('open');
     var la = new Date().getTime();
+    var la2 = new Date().getTime();
     arduino101.on('data', function (data) {
         var dataUtf8 = data.toString('utf8');
         if(dataUtf8.indexOf('E') === -1){
@@ -111,17 +112,20 @@ arduino101.on("open", function () {
             dataUtf8 = dataUtf8.split(',');
             if (dataUtf8.length === 7) {
                 var ti = new Date().getTime();
+                var ti2 = new Date().getTime();
                 if (soil && rain && distance && orient) {
                     if ((ti - la) > 1000) {
                         la = ti;
                         soil.emit('update', dataUtf8[0]);
                         rain.emit('rain', dataUtf8[1]);
                     }
-                    var dist = scale(dataUtf8[2]);
-                    distance.emit('update', {
-                        text: Math.floor(dist) + ' cm',
-                        width: scale2(dist)
-                    });
+                    if ((ti - la) > 100) {
+                        var dist = scale(dataUtf8[2]);
+                        distance.emit('update', {
+                            text: Math.floor(dist) + ' cm',
+                            width: scale2(dist)
+                        });
+                    }
                     orient.emit('update', dataUtf8[5]);
                 }
             }
