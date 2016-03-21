@@ -1,8 +1,9 @@
 var path = require('path');
 var Glimpse = require('pbi-glimpse');
 
-var arduinoPort = "COM6";
-var xbeePort = "/dev/AMA0";
+var arduinoPort = "/dev/ttyACM0";
+var xbeePort = "/dev/ttyAMA0";
+
 var glimpse = new Glimpse('soil', path.join(__dirname,'soil.js'));
 var glimpse2 = new Glimpse('rain', path.join(__dirname,'rain.js'));
 var glimpse3 = new Glimpse('distance', path.join(__dirname,'text.js'));
@@ -76,9 +77,7 @@ var votingSim = function() {
     },2000);
 }
 
-//votingSim();
-
-
+votingSim();
 
 return;
 

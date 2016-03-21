@@ -6,7 +6,7 @@ var geo = require('geolib');
 var path = require('path');
 var Glimpse = require('pbi-glimpse');
 
-var glimpse8 = new Glimpse('map', path.join(__dirname, '../iotserver/map.js'));
+var glimpse8 = new Glimpse('map', path.join(__dirname, 'map.js'));
 var glimpse3 = new Glimpse('miles', path.join(__dirname,'../iotserver/text.js'));
 var glimpseCost = new Glimpse('cost', path.join(__dirname,'../iotserver/text.js'));
 var glimpseCompleted = new Glimpse('completed', path.join(__dirname,'../iotserver/text.js'));
