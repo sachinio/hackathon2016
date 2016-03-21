@@ -11,7 +11,7 @@ class Glimpse implements IGlimpse {
 
     constructor(private options: ConstructorOptions){
         this.appendPbiStyles()
-        $("<style type='text/css'> svg{ background: #333333} .bar { fill: #EDC951; } .axis { font: 12px wf_standard-font_light; } .axis path,.axis line {fill: none; stroke: #EDC951; shape-rendering: crispEdges; }.axis text{ fill: #EDC951; } .x.axis path { display: none; }</style>").appendTo("head");
+        $("<style type='text/css'> svg{ background: #333333} .bar { fill: #EDC951; } .axis { font: 17px wf_standard-font_light; } .axis path,.axis line {fill: none; stroke: #EDC951; shape-rendering: crispEdges; }.axis text{ fill: #EDC951; } .x.axis path { display: none; }</style>").appendTo("head");
 
         this.data = [];
 
