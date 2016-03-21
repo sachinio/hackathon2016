@@ -9,7 +9,7 @@ var xbeePort = "/dev/ttyAMA0";
 var glimpse = new Glimpse('soil', path.join(__dirname,'soil.js'));
 var glimpse2 = new Glimpse('rain', path.join(__dirname,'rain.js'));
 var glimpse3 = new Glimpse('distance', path.join(__dirname,'text.js'));
-var glimpse4 = new Glimpse('orient', path.join(__dirname,'glimpse.js'));
+var glimpse4 = new Glimpse('orient', path.join(__dirname,'orient.js'));
 var glimpse5 = new Glimpse('light', path.join(__dirname,'light.js'));
 var glimpse6 = new Glimpse('vote', path.join(__dirname,'vote.js'));
 
@@ -127,7 +127,8 @@ arduino101.on("open", function () {
                             width: scale2(dist)
                         });
                     }
-                    orient.emit('update', dataUtf8[5]);
+                    console.log(dataUtf8[5])
+                    //orient.emit('update', dataUtf8[5]);
                 }
             }
         }
