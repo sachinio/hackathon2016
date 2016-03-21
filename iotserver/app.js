@@ -87,7 +87,7 @@ var xbee = new SerialPort(xbeePort, {
 });
 
 var scale = scales.linear()
-    .domain([250, 105])
+    .domain([250, 1050])
     .range([1, 7]);
 
 var scale2 = scales.linear()
