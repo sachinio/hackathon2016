@@ -77,9 +77,9 @@ var votingSim = function() {
     },2000);
 }
 
-votingSim();
+//votingSim();
 
-return;
+//return;
 
 var SerialPort = require("serialport").SerialPort;
 
