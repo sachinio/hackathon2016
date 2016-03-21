@@ -22,11 +22,13 @@ class Glimpse implements IGlimpse {
             'color':'#EDC951',
             'font-size': '60px',
             'font-family': 'wf_standard-font_light',
-            'transition': 'width 0.1s'
         });
 
         this.bar = $('<div class="bar"></div>');
-        this.bar.css('background-color','#EDC951');
+        this.bar.css({
+            'background-color':'#EDC951',
+            'transition': 'width 0.1s'
+        });
         $(options.element).append(text).append(this.bar);
 
         d3.select(options.element).style('background','#333333');
