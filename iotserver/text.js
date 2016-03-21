@@ -20,21 +20,25 @@ var Glimpse = (function () {
         });
         this.bar = $('<div class="bar"></div>');
         this.bar.css('background-color', '#EDC951');
-        $(options.element).append(text).append(this.bar); //.append('<span class="glyphicon pbi-glyph-barchart glyph-large" aria-hidden="true"></span>');
+        $(options.element).append(text).append(this.bar);
         d3.select(options.element).style('background', '#333333');
         text.text('-');
         options.host.on('update', function (data) {
             text.text(data.text ? data.text : data);
             if (data.width) {
-                _this.barWidth = true;
                 _this.bar.css({
                     'width': (data.width * 100) + '%',
                     'height': 8 + 'px'
                 });
+                if (!_this.barWidth) {
+                    _this.barWidth = true;
+                    _this.resize(_this.viewport);
+                }
             }
         });
     }
     Glimpse.prototype.resize = function (viewport) {
+        this.viewport = viewport;
         this.text.css('line-height', (viewport.height - (this.barWidth !== undefined ? 8 : 0)) + 'px');
         console.log('resizing ...');
     };

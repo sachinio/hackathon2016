@@ -121,9 +121,9 @@ arduino101.on("open", function () {
                     }
                     if ((ti2 - la2) > 100) {
                         la2 = ti2;
-                        var dist = scale(dataUtf8[2]);
+                        var dist =Math.floor(scale(dataUtf8[2]));
                         distance.emit('update', {
-                            text: Math.floor(dist) + ' cm',
+                            text: dist + ' cm',
                             width: scale2(dist)
                         });
                     }

@@ -11,6 +11,7 @@ class Glimpse implements IGlimpse {
     private text;
     private bar;
     private barWidth;
+    private viewport;
 
     constructor(private options: ConstructorOptions){
         var count = 0;
@@ -26,7 +27,7 @@ class Glimpse implements IGlimpse {
 
         this.bar = $('<div class="bar"></div>');
         this.bar.css('background-color','#EDC951');
-        $(options.element).append(text).append(this.bar) //.append('<span class="glyphicon pbi-glyph-barchart glyph-large" aria-hidden="true"></span>');
+        $(options.element).append(text).append(this.bar);
 
         d3.select(options.element).style('background','#333333');
 
@@ -35,16 +36,21 @@ class Glimpse implements IGlimpse {
         options.host.on('update', (data: any)=>{
             text.text(data.text ? data.text : data);
             if(data.width){
-                this.barWidth = true;
+
                 this.bar.css({
                     'width': (data.width * 100) + '%',
                     'height': 8 + 'px'
                 });
+                if(!this.barWidth){
+                    this.barWidth = true;
+                    this.resize(this.viewport);
+                }
             }
         });
     }
 
     public resize(viewport: IViewport){
+        this.viewport = viewport;
         this.text.css('line-height',(viewport.height - (this.barWidth !== undefined ? 8 : 0)) + 'px');
 
         console.log('resizing ...')
