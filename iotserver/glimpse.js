@@ -43,20 +43,23 @@ var Glimpse = (function () {
         });
     }
     Glimpse.prototype.draw = function () {
-        var context = this.canvas.get(0).getContext('2d');
-        var viewport = this.viewport;
-        context.clearRect(0, 0, viewport.width | 0, viewport.height | 0);
-        var centerX = (viewport.width / 2) | 0;
-        var centerY = (viewport.height / 2) | 0;
-        var radius = this.r;
-        context.beginPath();
-        context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        context.fillStyle = '#EDC951';
-        context.fill();
-        context.lineWidth = 5;
-        context.strokeStyle = 'black';
-        context.globalAlpha = 1;
-        context.stroke();
+        try {
+            var context = this.canvas.get(0).getContext('2d');
+            var viewport = this.viewport;
+            context.clearRect(0, 0, viewport.width | 0, viewport.height | 0);
+            var centerX = (viewport.width / 2) | 0;
+            var centerY = (viewport.height / 2) | 0;
+            var radius = this.r;
+            context.beginPath();
+            context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+            context.fillStyle = '#EDC951';
+            context.fill();
+            context.lineWidth = 5;
+            context.strokeStyle = 'black';
+            context.globalAlpha = 1;
+            context.stroke();
+        }
+        catch (e) { }
     };
     Glimpse.prototype.initCube = function (element, w, h) {
         this.scene = new THREE.Scene();
