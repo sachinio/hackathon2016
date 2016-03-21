@@ -28,7 +28,7 @@ class Glimpse implements IGlimpse {
 
         options.host.on('update',(data: any)=>{
             this.value = data;
-            this.circle.attr('r', data);
+            this.circle.attr('r', viewport.height / 4 * data);
         });
     }
 
