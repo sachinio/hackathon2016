@@ -22,7 +22,7 @@ var Glimpse = (function () {
         });
         options.host.on('update', function (data) {
             _this.value = data;
-            _this.circle.attr('r', viewport.height / 4 * data);
+            _this.circle.attr('r', _this.viewport.height / 4 * data);
         });
     }
     Glimpse.prototype.resize = function (viewport) {
