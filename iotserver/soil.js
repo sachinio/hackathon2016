@@ -106,6 +106,7 @@ function loadLiquidFillGauge(elementId, value, config) {
     // Text where the wave does not overlap.
     var text1 = gaugeGroup.append("text")
         .text(textRounder(textStartValue) + percentText)
+        .style('font-family', 'wf_standard-font_light')
         .attr("class", "liquidFillGaugeText")
         .attr("text-anchor", "middle")
         .attr("font-size", textPixels + "px")
@@ -134,6 +135,7 @@ function loadLiquidFillGauge(elementId, value, config) {
     // Text where the wave does overlap.
     var text2 = fillCircleGroup.append("text")
         .text(textRounder(textStartValue) + percentText)
+        .style('font-family', 'wf_standard-font_light')
         .attr("class", "liquidFillGaugeText")
         .attr("text-anchor", "middle")
         .attr("font-size", textPixels + "px")
@@ -263,7 +265,7 @@ var Glimpse = (function () {
         config4.waveOffset = 0.25;
         config4.textSize = 0.75;
         config4.waveCount = 3;
-        var gauge = loadLiquidFillGauge("fillgauge", 0, config4);
+        var gauge = loadLiquidFillGauge("fillgauge", 50, config4);
         this.options.host.on('update', function (data) {
             gauge.update((parseInt(data) / 4) | 0);
         });
