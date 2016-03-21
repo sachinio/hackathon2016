@@ -9,6 +9,9 @@ import {IGlimpse, ConstructorOptions, IHost, IViewport} from '../node_modules/pb
 
 class Glimpse implements IGlimpse {
     private text;
+    private bar;
+    private barWidth;
+
     constructor(private options: ConstructorOptions){
         var count = 0;
         var text= this.text= $('<div></div>');
@@ -20,21 +23,29 @@ class Glimpse implements IGlimpse {
             'font-family': 'wf_standard-font_light'
         });
 
-
-        $(options.element).append(text)//.append('<span class="glyphicon pbi-glyph-barchart glyph-large" aria-hidden="true"></span>');
-
+        this.bar = $('<div class="bar"></div>');
+        this.bar.css('background-color','#EDC951');
+        $(options.element).append(text).append(this.bar) //.append('<span class="glyphicon pbi-glyph-barchart glyph-large" aria-hidden="true"></span>');
 
         d3.select(options.element).style('background','#333333');
 
-        text.text('4234');
-        options.host.on('update', (data)=>{
-            text.text(data);
+        text.text('-');
+
+        options.host.on('update', (data: any)=>{
+            text.text(data.text ? data.text : data);
+            if(data.width){
+                this.barWidth = true;
+                this.bar.css({
+                    'width': (data.width * 100) + '%',
+                    'height': 8 + 'px'
+                });
+            }
         });
     }
 
     public resize(viewport: IViewport){
-        d3.select('svg').attr('height', viewport.height).attr('width',viewport.width);
-        this.text.css('line-height',viewport.height + 'px');
+        this.text.css('line-height',(viewport.height - (this.barWidth !== undefined ? 8 : 0)) + 'px');
+
         console.log('resizing ...')
     }
 }

@@ -1,5 +1,7 @@
 var path = require('path');
 var Glimpse = require('pbi-glimpse');
+var scales = require('../node_modules/scales/scales.js');
+var _ = require('lodash');
 
 var arduinoPort = "/dev/ttyACM0";
 var xbeePort = "/dev/ttyAMA0";
@@ -84,6 +86,15 @@ var xbee = new SerialPort(xbeePort, {
     baudrate: 9600
 });
 
+var scale = scales.linear()
+    .domain([250, 105])
+    .range([1, 7]);
+
+var scale2 = scales.linear()
+    .domain([1, 7])
+    .range([0, 1]);
+
+
 var chunk = "";
 arduino101.on("open", function () {
     console.log('open');
@@ -106,7 +117,11 @@ arduino101.on("open", function () {
                         soil.emit('update', dataUtf8[0]);
                         rain.emit('rain', dataUtf8[1]);
                     }
-                    distance.emit('update', dataUtf8[2]);
+                    var dist = scale(dataUtf8[2]);
+                    distance.emit('update', {
+                        text: Math.floor(dist) + ' cm',
+                        width: scale2(dist)
+                    });
                     orient.emit('update', dataUtf8[5]);
                 }
             }

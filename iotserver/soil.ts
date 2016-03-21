@@ -290,7 +290,7 @@ class Glimpse implements IGlimpse {
         var div = this.div = $('<svg id="fillgauge" width="100%" height="'+h+'px"></svg>');
         $(this.options.element).append(div);
         var config4 = liquidFillGaugeDefaultSettings();
-        config4.circleThickness = 0.15;
+        config4.circleThickness = 0.05;
         config4.circleColor = "#EDC951";
         config4.textColor = "#EDC951";
         config4.waveTextColor = "#FFFFAA";
