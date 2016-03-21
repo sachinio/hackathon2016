@@ -119,7 +119,8 @@ arduino101.on("open", function () {
                         soil.emit('update', dataUtf8[0]);
                         rain.emit('rain', dataUtf8[1]);
                     }
-                    if ((ti - la) > 100) {
+                    if ((ti2 - la2) > 100) {
+                        la2 = ti2;
                         var dist = scale(dataUtf8[2]);
                         distance.emit('update', {
                             text: Math.floor(dist) + ' cm',
