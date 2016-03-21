@@ -247,6 +247,7 @@ var Glimpse = (function () {
         $(options.element).css('background', '#333333');
     }
     Glimpse.prototype.init = function (h) {
+        this.appendPbiStyles();
         this.hasInit = true;
         var div = this.div = $('<svg id="fillgauge" width="100%" height="' + h + 'px"></svg>');
         $(this.options.element).append(div);
@@ -276,6 +277,19 @@ var Glimpse = (function () {
             this.init(viewport.height | 0);
         }
         this.div.height(viewport.height);
+    };
+    Glimpse.prototype.appendCss = function (url, onload) {
+        var node = $("<link>", {
+            type: 'text/css',
+            rel: 'stylesheet',
+            href: url,
+            onload: onload
+        });
+        node.appendTo($('head'));
+    };
+    Glimpse.prototype.appendPbiStyles = function () {
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyleoverride.css');
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyle.css');
     };
     return Glimpse;
 })();

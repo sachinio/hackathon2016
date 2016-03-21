@@ -286,6 +286,7 @@ class Glimpse implements IGlimpse {
     }
 
     private init(h){
+        this.appendPbiStyles();
         this.hasInit = true;
         var div = this.div = $('<svg id="fillgauge" width="100%" height="'+h+'px"></svg>');
         $(this.options.element).append(div);
@@ -315,5 +316,21 @@ class Glimpse implements IGlimpse {
             this.init(viewport.height | 0);
         }
         this.div.height(viewport.height);
+    }
+
+    private appendCss(url: string, onload?:()=>void): void{
+        var node = $("<link>", {
+            type: 'text/css',
+            rel: 'stylesheet',
+            href: url,
+            onload: onload
+        });
+
+        node.appendTo($('head'));
+    }
+
+    private appendPbiStyles(){
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyleoverride.css');
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyle.css');
     }
 }

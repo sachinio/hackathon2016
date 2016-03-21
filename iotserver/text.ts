@@ -14,6 +14,7 @@ class Glimpse implements IGlimpse {
     private viewport;
 
     constructor(private options: ConstructorOptions){
+        this.appendPbiStyles();
         var count = 0;
         var text= this.text= $('<div></div>');
         text.css({
@@ -56,5 +57,21 @@ class Glimpse implements IGlimpse {
         this.text.css('line-height',(viewport.height - (this.barWidth !== undefined ? 8 : 0)) + 'px');
 
         console.log('resizing ...')
+    }
+
+    private appendCss(url: string, onload?:()=>void): void{
+        var node = $("<link>", {
+            type: 'text/css',
+            rel: 'stylesheet',
+            href: url,
+            onload: onload
+        });
+
+        node.appendTo($('head'));
+    }
+
+    private appendPbiStyles(){
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyleoverride.css');
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyle.css');
     }
 }

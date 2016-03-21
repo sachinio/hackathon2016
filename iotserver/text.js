@@ -8,6 +8,7 @@ var Glimpse = (function () {
     function Glimpse(options) {
         var _this = this;
         this.options = options;
+        this.appendPbiStyles();
         var count = 0;
         var text = this.text = $('<div></div>');
         text.css({
@@ -43,6 +44,19 @@ var Glimpse = (function () {
         this.viewport = viewport;
         this.text.css('line-height', (viewport.height - (this.barWidth !== undefined ? 8 : 0)) + 'px');
         console.log('resizing ...');
+    };
+    Glimpse.prototype.appendCss = function (url, onload) {
+        var node = $("<link>", {
+            type: 'text/css',
+            rel: 'stylesheet',
+            href: url,
+            onload: onload
+        });
+        node.appendTo($('head'));
+    };
+    Glimpse.prototype.appendPbiStyles = function () {
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyleoverride.css');
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyle.css');
     };
     return Glimpse;
 })();

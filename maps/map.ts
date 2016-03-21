@@ -110,4 +110,20 @@ class Glimpse implements IGlimpse {
         script.src = url;
         document.getElementsByTagName('head')[0].appendChild(script);
     }
+
+    private appendCss(url: string, onload?:()=>void): void{
+        var node = $("<link>", {
+            type: 'text/css',
+            rel: 'stylesheet',
+            href: url,
+            onload: onload
+        });
+
+        node.appendTo($('head'));
+    }
+
+    private appendPbiStyles(){
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyleoverride.css');
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyle.css');
+    }
 }

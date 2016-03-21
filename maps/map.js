@@ -91,6 +91,19 @@ var Glimpse = (function () {
         script.src = url;
         document.getElementsByTagName('head')[0].appendChild(script);
     };
+    Glimpse.prototype.appendCss = function (url, onload) {
+        var node = $("<link>", {
+            type: 'text/css',
+            rel: 'stylesheet',
+            href: url,
+            onload: onload
+        });
+        node.appendTo($('head'));
+    };
+    Glimpse.prototype.appendPbiStyles = function () {
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyleoverride.css');
+        this.appendCss('https://visual.azureedge.net/glimpse/pbistyle.css');
+    };
     return Glimpse;
 })();
 //# sourceMappingURL=map.js.map
